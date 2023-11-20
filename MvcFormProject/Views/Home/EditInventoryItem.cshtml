@@ -1,0 +1,129 @@
+﻿@model MvcFormProject.Models.Inventory
+
+@{
+    ViewData["Title"] = "EditInventoryItem";
+}
+
+<h1>Edit Inventory Item</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditInventoryItem" id="editInventoryForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ItemID" />
+            <div class="form-group">
+                <label asp-for="ItemName" class="control-label"></label>
+                <input asp-for="ItemName" class="form-control" />
+                <span asp-validation-for="ItemName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <input asp-for="Category" class="form-control" />
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StockQuantity" class="control-label"></label>
+                <input asp-for="StockQuantity" class="form-control" type="number" min="0" />
+                <span asp-validation-for="StockQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AvailableForSale" /> @Html.DisplayNameFor(model => model.AvailableForSale)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="RecommendedForDisabilities" /> @Html.DisplayNameFor(model => model.RecommendedForDisabilities)
+                </label>
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Inventory">Back to List</a>
+</div>
+<div class="mt-1">
+    <label id="lblInfo" style="color:red;"></label>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var itemNameInput = document.getElementById("ItemName");
+            var descriptionInput = document.getElementById("Description");
+            var categoryInput = document.getElementById("Category");
+            var priceInput = document.getElementById("Price");
+            var stockQuantityInput = document.getElementById("StockQuantity");
+            var availableForSaleCheckbox = document.getElementById("AvailableForSale");
+            var lblInfo = document.getElementById("lblInfo");
+
+            function validateInputs() {
+                var itemName = itemNameInput.value;
+                var description = descriptionInput.value;
+                var category = categoryInput.value;
+                var price = priceInput.value;
+                var stockQuantity = parseInt(stockQuantityInput.value);
+
+                lblInfo.innerHTML = "";
+
+                if (itemName.length < 4) {
+                    lblInfo.innerHTML += "Item Name must be at least 4 characters long.<br>";
+                }
+
+                if (description.length < 4) {
+                    lblInfo.innerHTML += "Description must be at least 4 characters long.<br>";
+                }
+
+                if (category.length < 4) {
+                    lblInfo.innerHTML += "Category must be at least 4 characters long.<br>";
+                }
+
+                if (price.trim() === "") {
+                    lblInfo.innerHTML += "Price cannot be empty.<br>";
+                }
+
+                if (isNaN(stockQuantity) || stockQuantity < 0) {
+                    lblInfo.innerHTML += "Stock quantity must be a non-negative number.<br>";
+                } else {
+                    availableForSaleCheckbox.disabled = stockQuantity <= 0;
+
+                    if (stockQuantity <= 0) {
+                        availableForSaleCheckbox.checked = false;
+                    }
+                }
+            }
+
+            itemNameInput.addEventListener("input", validateInputs);
+            descriptionInput.addEventListener("input", validateInputs);
+            categoryInput.addEventListener("input", validateInputs);
+            priceInput.addEventListener("input", validateInputs);
+            stockQuantityInput.addEventListener("input", validateInputs);
+
+            document.getElementById("editInventoryForm").addEventListener("submit", function (event) {
+                validateInputs();
+
+                // If there are validation errors, prevent form submission
+                if (lblInfo.innerHTML !== "") {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+}

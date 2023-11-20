@@ -1,0 +1,35 @@
+﻿<div class="container mt-4 text-center">
+    <h2 class="mb-4">Inventory Sale</h2>
+    <form asp-action="MakeOrder">
+        <div class="row">
+            <div class="col-sm-1 mt-2 text-start">
+                <b>Items: </b>
+            </div>
+            <div class="col-sm-3 text-start">
+                    <!-- multiple -->
+                <select class="form-select" multiple name="selectedItems">
+                    <option value="">--Select Items--</option>
+                    @foreach (var item in Model.Inventory)
+                    {
+                        <option value="@item.ItemID">@item.ItemName (ID: @item.ItemID)</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-1 mt-2 text-start">
+                <b>Quantity: </b>
+            </div>
+            <div class="col-sm-3 text-start">
+                <input type="number" name="quantity" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-12 text-start">
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </div>
+        </div>
+    </form>
+</div>

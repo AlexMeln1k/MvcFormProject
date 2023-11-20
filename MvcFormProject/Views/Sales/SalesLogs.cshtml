@@ -1,0 +1,40 @@
+﻿@model List<SalesLogs>
+
+@{
+    ViewData["Title"] = "Sales Log";
+}
+
+<div class="container mt-5 text-center">
+    <h1 class="mb-3">Sales Log</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">SaleID</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Employee</th>
+                <th scope="col">Item</th>
+                <th scope="col">Sales Date</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.SaleID</th>
+                    <td>@(item.Customer != null ? item.Customer.FirstName + " " + item.Customer.LastName : "")</td>
+                    <td>@(item.Employee != null ? item.Employee.FirstName + " " + item.Employee.LastName : "")</td>
+                    <td>@(item.Item != null ? item.Item.ItemName : "")</td>
+                    <td>@item.SaleDate</td>
+                    <td>@item.QuantitySold</td>
+                    <td>$@item.Total</td>
+                    <td><a class="btn btn-sm btn-outline-success" asp-route-id="@item.SaleID" asp-action="GetMoreInfo">More</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

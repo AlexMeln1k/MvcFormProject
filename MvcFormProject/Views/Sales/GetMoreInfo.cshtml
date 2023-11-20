@@ -1,0 +1,22 @@
+﻿@model SalesLogs
+
+@{
+    ViewData["Title"] = "More Info";
+}
+
+<div class="container">
+    <div class="card">
+        <h5 class="card-header">@Model.Item.ItemName</h5>
+        <div class="card-body">
+            <p class="card-text">Description: @Model.Item.Description</p>
+            <p class="card-text">Category: @Model.Item.Category</p>
+            <p class="card-text">Price per one item: $@Model.Item.Price</p>
+            <p class="card-text">Sold by: @Model.Employee.FirstName @Model.Employee.LastName</p>
+            <p class="card-text">Sold to: @Model.Customer.FirstName @Model.Customer.LastName</p>
+            <p class="card-text">Sale Date: @Model.SaleDate</p>
+            <p class="card-text">Quantity Sold: @Model.QuantitySold</p>
+            <p class="card-text">Total: $@Model.Total</p>
+            <a asp-action="SalesLogs" class="btn btn-outline-primary">Back</a>
+        </div>
+    </div>
+</div>

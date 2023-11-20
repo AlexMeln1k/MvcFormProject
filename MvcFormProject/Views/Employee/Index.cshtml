@@ -1,0 +1,39 @@
+﻿@model List<Employee>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="container mt-5 text-center">
+    <h1 class="mb-3">Employees</h1>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            string photoName = String.Empty;
+            int age = DateTime.Today.Year - item.DateOfBirth.Year;
+            int yearInComp = DateTime.Today.Year - item.HireDate.Year;
+
+            if (String.IsNullOrEmpty(item.Photo) || item.Photo.ToLower() == "no")
+                photoName = "Person.png";
+            else
+                photoName = item.Photo + ".jpg";
+
+            <div class="col">
+                <div class="card mt-5" style="width: 18rem;">
+                    <img src="@Url.Content($"~/photos/{photoName}")" class="card-img-top">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>@item.FirstName @item.LastName (ID: @item.EmployeeID)</b></li>
+                        <li class="list-group-item"><strong>Date of Birth:</strong> @item.DateOfBirth.ToShortDateString() (@age)</li>
+                        <li class="list-group-item"><strong>Contact Number:</strong> @item.ContactNumber</li>
+                        <li class="list-group-item"><strong>Email:</strong> @item.Email</li>
+                        <li class="list-group-item"><strong>Position:</strong> @item.Position</li>
+                        <li class="list-group-item"><strong>Department:</strong> @item.Department</li>
+                        <li class="list-group-item"><strong>Hire Date:</strong> @item.HireDate.ToShortDateString() (@yearInComp)</li>
+                        <li class="list-group-item"><strong>Salary:</strong> $@item.Salary</li>
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</div>
